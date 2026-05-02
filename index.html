@@ -23,6 +23,7 @@
       --radius: 13px;
       --shadow: 0 4px 28px rgba(0,0,0,0.5);
       --t: 0.18s cubic-bezier(0.4,0,0.2,1);
+      --spotlight: rgba(42,143,212,0.16);
     }
     [data-theme="light"] {
       --bg: #f0f7fc;
@@ -34,6 +35,7 @@
       --shadow: 0 4px 20px rgba(0,0,0,0.08);
       --accent: #1a6eb5;
       --green: #2d8a42;
+      --spotlight: rgba(26,110,181,0.11);
     }
 
     html { scroll-behavior: smooth; }
@@ -216,11 +218,20 @@
     .card {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 1.35rem;
-      cursor: pointer; position: relative;
+      cursor: pointer; position: relative; overflow: hidden;
       transition: border-color 0.22s, box-shadow 0.22s, transform 0.22s;
       animation: cardIn 0.38s cubic-bezier(0.4,0,0.2,1) both;
       will-change: transform;
     }
+    .card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle 160px at var(--mx, 50%) var(--my, 50%), var(--spotlight) 0%, transparent 100%);
+      opacity: 0; transition: opacity 0.35s; pointer-events: none;
+      z-index: -1;
+    }
+    .card:hover::before { opacity: 1; }
+    .user-grid.list .card::before { display: none; }
     .card:hover {
       border-color: rgba(42,143,212,0.45);
       box-shadow: var(--shadow);
@@ -949,7 +960,7 @@ function renderPanel() {
   }).join('');
 }
 
-// 3D Tilt 
+// 3D Tilt + Spotlight
 D.grid.addEventListener('mousemove', e => {
   if (S.view === 'list') return;
   const card = e.target.closest('.card');
@@ -958,6 +969,8 @@ D.grid.addEventListener('mousemove', e => {
   const x = (e.clientX - r.left) / r.width - 0.5;
   const y = (e.clientY - r.top) / r.height - 0.5;
   card.style.transform = `translateY(-3px) perspective(600px) rotateX(${-y*6}deg) rotateY(${x*6}deg)`;
+  card.style.setProperty('--mx', `${(e.clientX - r.left).toFixed(1)}px`);
+  card.style.setProperty('--my', `${(e.clientY - r.top).toFixed(1)}px`);
 });
 D.grid.addEventListener('mouseout', e => {
   const card = e.target.closest('.card');
