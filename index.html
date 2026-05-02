@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -506,9 +506,53 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    /* ── Intro animation ── */
+    .page-intro {
+      position: fixed; inset: 0;
+      background: #090d12;
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+      animation: introExit 0.55s cubic-bezier(0.22,1,0.36,1) 0.95s forwards;
+    }
+    @keyframes introExit {
+      from { clip-path: inset(0 0 0 0); }
+      to   { clip-path: inset(100% 0 0 0); }
+    }
+    .intro-inner {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 1.1rem;
+      animation: introIn 0.5s cubic-bezier(0.22,1,0.36,1) 0.05s both;
+    }
+    @keyframes introIn {
+      from { opacity: 0; transform: translateY(14px) scale(0.94); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .intro-logo {
+      height: 52px; width: auto;
+      background: rgba(255,255,255,0.93);
+      padding: 7px 18px; border-radius: 7px;
+    }
+    .intro-line {
+      height: 2px; width: 0; border-radius: 1px;
+      background: linear-gradient(to right, #2a8fd4, #3aab5c);
+      animation: introLine 0.5s cubic-bezier(0.22,1,0.36,1) 0.32s both;
+    }
+    @keyframes introLine {
+      from { width: 0; opacity: 0; }
+      to   { width: 200px; opacity: 1; }
+    }
   </style>
 </head>
 <body>
+
+<div class="page-intro" id="pageIntro" aria-hidden="true">
+  <div class="intro-inner">
+    <img src="logo.jpg" alt="" class="intro-logo">
+    <div class="intro-line"></div>
+  </div>
+</div>
 
 <header class="site-header">
   <div class="header-inner">
@@ -520,7 +564,7 @@
         <button class="btn-icon" id="favPanelBtn" title="Saved people" aria-label="View favorites">
           ♥<span class="fav-badge" id="favBadge">0</span>
         </button>
-        <button class="btn-icon" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">🌙</button>
+        <button class="btn-icon" id="themeBtn" title="Toggle theme" aria-label="Toggle theme">☀️</button>
       </div>
     </nav>
     <div class="header-headline">
@@ -595,6 +639,17 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
+//  Intro 
+(function() {
+  const intro = document.getElementById('pageIntro');
+  if (!intro) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    intro.remove();
+  } else {
+    setTimeout(() => intro.remove(), 1600);
+  }
+})();
+
 const API = 'https://jsonplaceholder.typicode.com/users';
 
 const AVATAR_COLORS = [
@@ -611,7 +666,7 @@ const S = {
   view: 'grid',
   favs: new Set(JSON.parse(localStorage.getItem('bh_favs') || '[]')),
   activeUser: null,
-  dark: true,
+  dark: false,
 };
 
 // DOM 
