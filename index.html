@@ -11,27 +11,29 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0f0d09;
-      --surface: #1a1712;
-      --surface2: #26211a;
-      --border: rgba(196,144,80,0.14);
-      --text: #efe7d6;
-      --text-muted: #8a7460;
-      --accent: #c8884a;
-      --accent-dark: #9e6630;
-      --success: #7fb069;
+      --bg: #090d12;
+      --surface: #111820;
+      --surface2: #18232f;
+      --border: rgba(42,143,212,0.15);
+      --text: #dce8f2;
+      --text-muted: #5e7a90;
+      --accent: #2a8fd4;
+      --green: #3aab5c;
+      --success: #3aab5c;
       --radius: 13px;
-      --shadow: 0 4px 28px rgba(0,0,0,0.45);
+      --shadow: 0 4px 28px rgba(0,0,0,0.5);
       --t: 0.18s cubic-bezier(0.4,0,0.2,1);
     }
     [data-theme="light"] {
-      --bg: #faf4eb;
-      --surface: #fff9f0;
-      --surface2: #f0e6d4;
-      --border: rgba(196,144,80,0.22);
-      --text: #1a1712;
-      --text-muted: #7a6248;
+      --bg: #f0f7fc;
+      --surface: #ffffff;
+      --surface2: #e4f0f8;
+      --border: rgba(26,110,181,0.18);
+      --text: #0d1a24;
+      --text-muted: #5a7a90;
       --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --accent: #1a6eb5;
+      --green: #2d8a42;
     }
 
     html { scroll-behavior: smooth; }
@@ -48,7 +50,8 @@
       position: relative;
       padding: 2.25rem 2rem 3.5rem;
       background: var(--surface);
-      border-bottom: 1px solid rgba(196,144,80,0.32);
+      border-bottom: 2px solid transparent;
+      border-image: linear-gradient(to right, #2a8fd4, #3aab5c) 1;
       overflow: hidden;
     }
     .site-header::before {
@@ -66,17 +69,14 @@
       display: flex; justify-content: space-between; align-items: center;
       margin-bottom: 2.75rem;
     }
-    .logo {
-      display: flex; align-items: center; gap: 0.55rem;
-      font-size: 0.82rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--text); text-decoration: none;
+    .logo { display: flex; align-items: center; text-decoration: none; }
+    .logo-img {
+      height: 34px; width: auto; display: block; border-radius: 4px;
     }
-    .logo-icon {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.95rem;
+    [data-theme="dark"] .logo-img {
+      background: rgba(255,255,255,0.93);
+      padding: 4px 10px; border-radius: 5px;
+      height: 28px;
     }
     .header-actions { display: flex; gap: 0.5rem; align-items: center; }
     .btn-icon {
@@ -95,7 +95,7 @@
     .fav-badge {
       position: absolute; top: -5px; right: -5px;
       width: 17px; height: 17px; border-radius: 50%;
-      background: var(--accent); border: 2px solid var(--surface);
+      background: var(--green); border: 2px solid var(--surface);
       font-size: 0.58rem; font-weight: 700;
       display: flex; align-items: center; justify-content: center;
       color: var(--bg); opacity: 0; transform: scale(0);
@@ -132,7 +132,7 @@
     .search-input::placeholder { color: var(--text-muted); }
     .search-input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(200,136,74,0.18);
+      box-shadow: 0 0 0 3px rgba(42,143,212,0.2);
     }
     .search-clear {
       position: absolute; right: 0.85rem; top: 50%;
@@ -222,7 +222,7 @@
       will-change: transform;
     }
     .card:hover {
-      border-color: rgba(200,136,74,0.45);
+      border-color: rgba(42,143,212,0.45);
       box-shadow: var(--shadow);
     }
     @keyframes cardIn {
@@ -256,7 +256,7 @@
       opacity: 0.45; transition: all var(--t); padding: 2px; flex-shrink: 0;
     }
     .fav-btn:hover, .fav-btn.on { opacity: 1; transform: scale(1.2); }
-    .fav-btn.on { color: var(--accent); }
+    .fav-btn.on { color: var(--green); }
 
     .card-info { display: flex; flex-direction: column; gap: 0.32rem; margin-bottom: 0.9rem; }
     .info-row {
@@ -267,7 +267,7 @@
     .info-row span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .hl {
-      background: rgba(200,136,74,0.22);
+      background: rgba(42,143,212,0.2);
       border-radius: 3px; padding: 0 2px; color: var(--text);
     }
 
@@ -388,10 +388,10 @@
       font-family: inherit; color: var(--text-muted);
       transition: all var(--t);
     }
-    .modal-fav-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .modal-fav-btn:hover { border-color: var(--green); color: var(--green); }
     .modal-fav-btn.on {
-      background: rgba(200,136,74,0.12);
-      border-color: var(--accent); color: var(--accent);
+      background: rgba(58,171,92,0.12);
+      border-color: var(--green); color: var(--green);
     }
 
     .modal-bd { padding: 1.2rem 1.4rem 1.5rem; }
@@ -424,7 +424,7 @@
       padding: 2px 5px; border-radius: 4px;
       transition: all var(--t); white-space: nowrap; font-family: inherit;
     }
-    .copy-btn:hover { background: rgba(200,136,74,0.12); color: var(--accent); }
+    .copy-btn:hover { background: rgba(42,143,212,0.12); color: var(--accent); }
     .copy-btn.done { color: var(--success); }
 
     /* ── Favorites panel ── */
@@ -513,10 +513,9 @@
 <header class="site-header">
   <div class="header-inner">
     <nav class="header-nav">
-      <div class="logo">
-        <div class="logo-icon">🌅</div>
-        Beyond Horizon
-      </div>
+      <a class="logo" href="#">
+        <img src="logo.jpg" alt="Beyond Horizon" class="logo-img">
+      </a>
       <div class="header-actions">
         <button class="btn-icon" id="favPanelBtn" title="Saved people" aria-label="View favorites">
           ♥<span class="fav-badge" id="favBadge">0</span>
@@ -529,7 +528,6 @@
       <p>Browse the people behind Beyond Horizon.</p>
     </div>
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
       <input class="search-input" id="searchInput" type="text"
         placeholder="Search by name, city, company…"
         autocomplete="off" spellcheck="false" aria-label="Search people">
@@ -600,8 +598,8 @@
 const API = 'https://jsonplaceholder.typicode.com/users';
 
 const AVATAR_COLORS = [
-  '#c8703a', '#4a8e8a', '#8e6c4a', '#5a7e5a', '#9e5a6a',
-  '#4a6e9e', '#b05a3a', '#6a8e5a', '#9e7a3a', '#5a5e9e',
+  '#2a7bb5', '#3a9e5a', '#5a6ea8', '#2e9688', '#7a5a9e',
+  '#3a8a48', '#b05840', '#2e72b0', '#8a7040', '#4a8878',
 ];
 
 // State
